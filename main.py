@@ -13,7 +13,6 @@ pygame.display.set_caption("♻️ Recicla y Gana")
 
 # --- COLORES ---
 VERDE = (50, 200, 50)
-AZUL = (80, 160, 255)
 BLANCO = (255, 255, 255)
 GRIS = (100, 100, 100)
 ROJO = (220, 50, 50)
@@ -22,12 +21,19 @@ ROJO = (220, 50, 50)
 fuente = pygame.font.SysFont("Arial", 28)
 
 # --- MÚSICA DE FONDO ---
-# Asegúrate de tener un archivo "musica_fondo.mp3" en la misma carpeta del juego
 try:
-    pygame.mixer.music.load("Ce.mp3")
-    pygame.mixer.music.play(-1)  # -1 = loop infinito
+    pygame.mixer.music.load("Ce.mp3")  # tu archivo de música
+    pygame.mixer.music.play(-1)
 except:
-    print("⚠️ No se encontró el archivo 'musica_fondo.mp3'.")
+    print("⚠️ No se encontró el archivo 'Ce.mp3'.")
+
+# --- FONDO (IMAGEN) ---
+try:
+    fondo = pygame.image.load("fondo.jpg")  # cambia por el nombre exacto de tu imagen
+    fondo = pygame.transform.scale(fondo, (ANCHO, ALTO))
+except:
+    print("⚠️ No se encontró la imagen de fondo, se usará un color sólido.")
+    fondo = None
 
 # --- OBJETOS Y VARIABLES ---
 contenedor = pygame.Rect(350, 520, 100, 50)
@@ -85,7 +91,11 @@ while True:
     objetos = [o for o in objetos if o["rect"].y < ALTO]
 
     # --- Dibujar ---
-    pantalla.fill(AZUL)
+    if fondo:
+        pantalla.blit(fondo, (0, 0))  # Dibuja la imagen de fondo
+    else:
+        pantalla.fill((80, 160, 255))  # Fondo azul si no hay imagen
+
     pygame.draw.rect(pantalla, VERDE, (0, 570, ANCHO, 30))  # Césped
     pygame.draw.rect(pantalla, GRIS, contenedor)  # Contenedor
 
